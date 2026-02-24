@@ -1,0 +1,63 @@
+<!-- CART SUMMARY BAR (Bonus: cart counter + total) -->
+<div class="cart-bar">
+    <span class="cart-bar-title">GlowUp Beauty Shop</span>
+    <div class="cart-info">
+      <span class="cart-count">Cart: {{ cartCount }} item(s)</span>
+      <span class="cart-total">Total: &#x20B1;{{ cartTotal | number }}</span>
+    </div>
+  </div>
+  
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <h1>Our Products</h1>
+    <p>Dynamic products powered by Angular</p>
+  </div>
+  
+  <!-- CATEGORY FILTER (Bonus) -->
+  <div class="category-filter">
+    <button
+      *ngFor="let cat of categories"
+      class="filter-btn"
+      [class.active]="selectedCategory === cat"
+      (click)="filterByCategory(cat)">
+      {{ cat }}
+    </button>
+  </div>
+  
+  <!-- PRODUCTS GRID &#8212; *ngFor -->
+  <div class="products-grid">
+    <div class="product-card" *ngFor="let item of filteredProducts">
+  
+      <!-- Product visual (Bonus: styled image placeholder) -->
+      <div class="product-img" [style.background-color]="item.color">
+        <span class="product-label">{{ item.label }}</span>
+      </div>
+  
+      <!-- Product Details -->
+      <div class="product-info">
+        <h3 class="product-name">{{ item.name }}</h3>
+        <p class="product-category">{{ item.category }}</p>
+        <p class="product-price">&#x20B1;{{ item.price | number }}</p>
+  
+        <!-- *ngIf: availability badge -->
+        <p class="badge available" *ngIf="item.available">Available</p>
+        <p class="badge out-of-stock" *ngIf="!item.available">Out of Stock</p>
+  
+        <!-- Add to Cart button with event binding -->
+        <button
+          class="btn-cart"
+          [disabled]="!item.available"
+          [class.disabled]="!item.available"
+          (click)="addToCart(item)">
+          {{ item.available ? 'Add to Cart' : 'Unavailable' }}
+        </button>
+      </div>
+  
+    </div>
+  </div>
+  
+  <!-- CART FOOTER &#8212; shown only when cart has items (*ngIf Bonus) -->
+  <div class="cart-footer" *ngIf="cartCount > 0">
+    <p>You have <strong>{{ cartCount }}</strong> item(s) in your cart.</p>
+    <p>Total: <strong>&#x20B1;{{ cartTotal | number }}</strong></p>
+  </div>
